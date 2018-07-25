@@ -29,5 +29,3 @@ elif player == 'p' and computer == 's':
     print ("COMPUTER WINS!!!")
 elif player == 's' and computer == 'r':
     print ("COMPUTER WINS!!!")
-
-
