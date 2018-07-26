@@ -1,7 +1,5 @@
 import random
 
-
-
 print("Welcome to Fallout Wasteland!")
 print("You are lost in the Wasteland caused by the nuclear fallout with your car.")
 print("You recently found some people who turned out to be a group of psychopath cannibals who want to eat you and your car!")
@@ -11,16 +9,17 @@ print()
 # Variables
 milesTraveled = 0
 thirst = 0
-gallonsofgas = 100
+nuclearpower = 100
 cannibalsTraveled = -30
 canteen = 3
 grocerystore = 0
 fatigue = 0
-gasleakchance = 0
+nuclearfuelcellbreakcahnce = 0
 cartotaledchance = 0
 killedincarcrash = 0
 nocar = 0
 chancetofindcar = 0
+carbreakdownchance = 0
 done = False
 
 # Start main loop
@@ -47,7 +46,7 @@ while not done and nocar == 0:
         print("Miles traveled:", milesTraveled)
         print("Drinks in canteen:", canteen)
         print("Fatigue level:", fatigue)
-        print("Your car has", gallonsofgas, "gallons of gas.")
+        print("Your car has", nuclearpower, "power.")
         print("The cannibals are", cannibalsBehind, "miles behind you.")
         print("Your thirst is", thirst)
 
@@ -63,20 +62,22 @@ while not done and nocar == 0:
         print("You traveled", fullSpeed, "miles")
         milesTraveled += fullSpeed
         thirst += 1
-        gallonsofgas -= 40
-        cannibalsTraveled += random.randrange(15, 22)
+        nuclearpower -= 40
+        cannibalsTraveled += random.randrange(13, 21)
         grocerystore = random.randrange(1, 21)
         fatigue += 1
+        carbreakdownchance = random.randrange(1,21)
 
     # Move moderate speed
     elif userInput.lower() == "b":
         print("You traveled", moderateSpeed, "miles")
         milesTraveled += moderateSpeed
         thirst += 1
-        gallonsofgas -= 1
-        cannibalsTraveled += random.randrange(15, 22)
-        grocerystore = random.randrange(1, 31)
+        nuclearpower -= 20
+        cannibalsTraveled += random.randrange(13, 21)
+        grocerystore = random.randrange(1, 21)
         fatigue += 1
+        carbreakdownchance = random.randrange(1, 41)
 
     # Drink canteen
     elif userInput.lower() == "a":
@@ -91,13 +92,19 @@ while not done and nocar == 0:
     if grocerystore == 20:
         thirst *= 0
         canteen = 3
-        print("You found an anbandoned grocery store! After taking a drink and eating you looted it of it's supplies and filled your canteen.")
+        print("You found an anbandoned grocery store!") 
+        print("After taking a drink and eating you looted it of it's supplies and filled your canteen and replaced your fuel cell.")
+        
+    if carbreakdownchance == 30:
+        nocar += 1
+        print("Your car broke down while driving it.")
+        print("You have to travel by foot!")
 
     if cannibalsBehind <= 15:
         print("The cannibals are drawing near!")
 
-    if milesTraveled >= 500 and not done:
-        print("You made it across the desert, you win!")
+    if milesTraveled >= 1000 and not done:
+        print("You made it across the wasteland, you win!")
         done = True
 
     if cannibalsTraveled >= milesTraveled:
@@ -112,21 +119,30 @@ while not done and nocar == 0:
         print("You died of dehydration!")
         done = True
 
-    if gallonsofgas > 1 and gallonsofgas <= 20 and not done:
+    if nuclearpower > 1 and nuclearpower <= 20 and not done:
         print("You're running out of gas.")
 
-    if gallonsofgas < 0:
-        print("You're out of gas.")
-        print("The cannibals soon catch and eat you and your car!w")
-        done = True
-    if fatigue < 0:
+    if nuclearpower < 0:
+        print("You're out of gas!")
+        print("You have to travel by foot.")
+        nocar += 1
+        
+    if fatigue < 8 and fatigue > 5:
+        print("You are getting tired.")
+        
+    if fatigue > 8:
         print("You fell asleep while driving and crashed into something off road.")
         cartotaledchance = random.randrange(1, 3)
-        gasleakchance = random.randrange(1, 5)
         killedincarcrash = random.randrange(1, 10)
-    if cartotaledchance == 2:
-        print ("You totaled your car and have to go by foot!")
-        nocar += 1
+    
+        if cartotaledchance == 2:
+            print ("You totaled your car and have to go by foot!")
+            nocar += 1
+        
+        if killedincarcrash == 9:
+            print("You died in the crash!")
+            done = True
+
 while not done and nocar > 0:
     cannibalsBehind = milesTraveled - cannibalsTraveled
     fullSpeed = random.randrange(2, 4)
@@ -167,8 +183,8 @@ while not done and nocar > 0:
         thirst += 3
         fatigue += 3
         cannibalsTraveled += random.randrange(15, 22)
-        grocerystore = random.randrange(1, 42)
-        chancetofindcar = random.randrange(1, 30)
+        grocerystore = random.randrange(1, 41)
+        chancetofindcar = random.randrange(1, 11)
 
     # Move moderate speed w/nocar
     elif userInput.lower() == "b":
@@ -177,8 +193,8 @@ while not done and nocar > 0:
         thirst += 2
         fatigue += 2
         cannibalsTraveled += random.randrange(15, 22)
-        grocerystore = random.randrange(1, 63)
-        chancetofindcar = random.randrange(1, 30)
+        grocerystore = random.randrange(1, 61)
+        chancetofindcar = random.randrange(1, 16)
 
     # Drink canteen w/nocar
     elif userInput.lower() == "a":
@@ -193,16 +209,24 @@ while not done and nocar > 0:
     if grocerystore == 20:
         thirst *= 0
         canteen = 3
-        print("You found an anbandoned grocery store! After taking a drink and eating you looted it of it's supplies and filled your canteen.")
-    if chancetofindcar == 29:
+        nuclearpower = 200
+        print("You found an anbandoned grocery store!") 
+        print("After taking a drink and eating you looted it of it's supplies and filled your canteen.")
+        
+    if chancetofindcar == 10:
         nocar = 0
+        badcar = random.randrange(1,10)
+        print ("You found a working car! You put your gas into the car and get back to driveing")
 
     if cannibalsBehind <= 15:
         print("The cannibals are drawing near!")
 
-    if milesTraveled >= 500 and not done:
+    if milesTraveled >= 1000 and not done:
         print("You made it to civilization and safety, you win!")
         done = True
+
+    if fatigue < 8 and fatigue > 5:
+        print("You are getting tired.")
 
     if cannibalsTraveled >= milesTraveled:
         print("The cannibals caught and ate you.")
