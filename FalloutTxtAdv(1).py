@@ -10,8 +10,9 @@ print()
 milesTraveled = 0
 fullSpeed = 0
 moderateSpeed = 0
+fullspeedonfoot = 0
 thirst = 0
-nuclearpower = 3000
+nuclearpower = 200
 cannibalsTraveled = -30
 canteen = 3
 grocerystore = 0
@@ -31,7 +32,7 @@ done = False
 while not done and nocar <= 0 :
     cannibalsBehind = milesTraveled - cannibalsTraveled
     fullSpeed = random.randrange(15, 35)
-    moderateSpeed = random.randrange(10, 22)
+    moderateSpeed = random.randrange(10, 25)
 
     print("A. Drink from your canteen.")
     print("B. Ahead at moderate speed.")
@@ -71,10 +72,10 @@ while not done and nocar <= 0 :
         cannibalsTraveled += random.randrange(13, 21)
         grocerystore = random.randrange(1, 31)
         fatigue += 1
-        carbreakdownchance = random.randrange(1,15)
+        carbreakdownchance = random.randrange(1,21)
         findpowerincarset += fullSpeed
+        findpowerincarchance = random.randrange(1, 5)
         
-
     # Move moderate speed
     elif userInput.lower() == "b":
         print("You traveled", moderateSpeed, "miles")
@@ -84,8 +85,9 @@ while not done and nocar <= 0 :
         cannibalsTraveled += random.randrange(13, 21)
         grocerystore = random.randrange(1, 36)
         fatigue += 1
-        carbreakdownchance = random.randrange(1, 21)
+        carbreakdownchance = random.randrange(1, 31)
         findpowerincarset += moderateSpeed
+        findpowerincarchance = random.randrange(1, 9)
 
     # Drink canteen
     elif userInput.lower() == "a":
@@ -106,12 +108,18 @@ while not done and nocar <= 0 :
         print("You found an anbandoned grocery store!") 
         print("After taking a drink and eating you looted it of it's supplies and filled your canteen and put power into your fuel cell")
     
+    if findpowerincarchance == 4:
+        print ("You found an unused car!")
+        print ("You you took the power from the nuclear fuel cell and put into your car!")
+        powerpumped = random.randrange(25, 100)
+        nuclearpower += powerpumped
+        
     if findpowerincarset >= 100:
         print ("You found an unused car!")
         print ("You you took the power from the nuclear fuel cell and put into your car!")
         powerpumped = random.randrange(25, 100)
         nuclearpower += powerpumped
-        findpowerincar = 0
+        findpowerincarset = 0
         
     if carbreakdownchance == 8:
         nocar += 1
@@ -212,7 +220,7 @@ while not done and nocar > 0:
         cannibalsTraveled += random.randrange(15, 22)
         grocerystore = random.randrange(1, 41)
         chancetofindcar = random.randrange(1, 6)
-        findpowerincarset += fullspeed
+        findpowerincarset += fullspeedonfoot
 
     # Move moderate speed w/ no car
     elif userInput.lower() == "b":
@@ -250,11 +258,11 @@ while not done and nocar > 0:
         findpowerincarset = 0
         
     if chancetofindcar == 5:
-         print ("You found a working car! You get in and get back to driving")
-         nocar -=  1
-         nuclearpower += random.randrange(20, 30)
+        print ("You found a working car! You get in and get back to driving")
+        nocar -= 1
+        nuclearpower += random.randrange(20, 30)
        
-    if cannibalsBehind <= 15:
+    if cannibalsBehind <= 30:
         print("The cannibals are drawing near!")
 
     if milesTraveled >= 1000 and not done:
